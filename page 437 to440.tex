@@ -1,0 +1,265 @@
+\documentclass{article}
+\usepackage{latexsym}
+\usepackage{graphicx}
+
+\begin{document}
+ID for the String `abaaaaba': (Here, the symbols in bold represent the
+read--write head position.) (q0, abaaaaba) $\to $ (q1, Xbaaaaba) $\to $ (q1,
+Xbaaaaba) $\to $ (q1, Xbaaaaba) $\to $ (q1, Xbaaaaba) $\to $ (q1, Xbaaaaba)
+$\to $ (q1, Xbaaaaba) $\to $ (q1, Xbaaaaba) $\to $ (q1, XbaaaabaB) $\to $
+(q2, XbaaaabaB) $\to $ (q3, XbaaaabX) $\to $ (q3, XbaaaabX) $\to $ (q3,
+XbaaaabX) $\to $ (q3, XbaaaabX) $\to $ (q3, XbaaaabX) $\to $ (q3, XbaaaabX)
+$\to $ (q3, XbaaaabXB) $\to $ (q3, XbaaaabX) $\to $ (q0, XbaaaabX) $\to $
+(q4, XYaaaabX) $\to $ (q4, XYaaaabX) $\to $ (q4, XYaaaabX) $\to $ (q4,
+XYaaaabX) $\to $ (q4, XYaaaabX) $\to $ (q4, XYaaaabX) $\to $ (q5, XYaaaabX)
+$\to $ (q6, XYaaaaYX) $\to $ (q6, XYaaaaYX) $\to $ (q6, XYaaaaYX) $\to $
+(q6, XYaaaaYX) $\to $ (q0, XYaaaaYX) $\to $ (q1, XYXaaaYX) $\to $ (q1,
+XYXaaaYX) $\to $ (q1, XYXaaaYX) $\to $ (q1, XYXaaaYX) $\to $ (q2, XYXaaaYX)
+$\to $ (q3, XYXaaXYX) $\to $ (q3, XYXaaXYX) $\to $ (q3, XYXaaXYX) $\to $
+(q0, XYXaaXYX) $\to $ (q1, XYXXaXYX) $\to $ (q1, XYXXaXYX) $\to $ (q2,
+XYXXaXYX) $\to $ (q3, XYXXXXYX) $\to $ (q0, XYXXXXYX) $\to $ (qf, XYXXXXYX)
+[Halt]
+
+Example 8.4 Design a TM to accept the language L $=$ \textbraceleft set of
+all palindromes over a, b\textbraceright . Show the IDs for the null string,
+`a', `aba', and `baab'.
+
+Solution: Palindromes are of two types:
+
+i) Odd palindromes, where the number of characters is odd
+
+ii) Even palindrome, where the number of characters is even. A null string
+is also a palindrome.
+
+A string which starts with `a' or `b' must end with `a' or `b',
+respectively, if the string is a palindrome. If a string starts with `a',
+that `a' is replaced by a blank symbol `B' upon traversal with a state
+change from q1 to q2 and the right shift of the read--write head. The
+transitional function is
+
+$\delta $(q1, a) $\to $ (q2, B, R)
+
+Then, the machine needs to search for the end of the string. The string must
+end with `a', and that `a' exists before a blank symbol B at the right hand
+side. Before getting that blank symbol, the machine needs to traverse all
+the remaining `a' and `b' of the string. The transitional functions are
+
+$\delta $(q2, a) $\to $ (q2, a, R)
+
+$\delta $(q2, b) $\to $ (q2, b, R)
+
+$\delta $(q2, B) $\to $ (q3, B, L)
+
+$\delta $(q3, a) $\to $ (q4, B, L)
+
+The machine now needs to search for the second symbol (from the starting) of
+the string. That symbol exists after the blank symbol B, which is replaced
+at the ?rst. Before that the machine needs to traverse the remaining `a' and
+`b' of the string. The transitional functions are
+
+$\delta $ (q4, a) $\to $ (q4, a, L)
+
+$\delta $ (q4, b) $\to $ (q4, b, L)
+
+$\delta $ (q4, B) $\to $ (q1, B, R)
+
+If the string starts with `b', the transitional functions are the same as
+`a' but some states are changed. The transitional functions are
+
+$\delta $ (q1, b) $\to $ (q5, B, R)
+
+$\delta $ (q5, a) $\to $ (q5, a, R)
+
+$\delta $ (q5, b) $\to $ (q5, b, R)
+
+$\delta $ (q5, B) $\to $ (q6, B, L)
+
+$\delta $ (q6, b) $\to $ (q4, B, L)
+
+When all `a' and `b' are traversed and replaced by B, the states may be one
+of q3 or q6, if the last symbol traversed is `a' or `b', respectively.
+Transitional functions for acceptance are
+
+$\delta $ (q3, B) $\to $ (q7, B, H)
+
+$\delta $ (q6, B) $\to $ (q7, B, H)
+
+A null string is also a palindrome. On the tape, a null symbol means blank
+B. In state q1, the machine gets the symbol. The transitional function is
+
+$\delta $ (q1, B) $\to $ (q7, B, H)
+
+The transitional functions in tabular form are represented as follows.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=10.03in,height=3.47in]{page1.eps}}
+\label{fig1}
+\end{figure}
+
+ID for Null String
+
+\begin{center}
+(q1, B) $\to $ (q7, B) [Halt]
+\end{center}
+
+ID for the String `a'
+
+\begin{center}
+(q1, aB) $\to $ (q2, BB) $\to $ (q3, BB) $\to $ (q7, BB) [Halt]
+\end{center}
+
+ID for the String `aba'
+
+\begin{center}
+(q1, abaB) $\to $ (q2, BbaB) $\to $ (q2, BbaB) $\to $ (q2, BbaB) $\to $ (q3,
+BbaB) $\to $ (q4, BbBB) $\to $ (q4, BbBB) $\to $ (q1, BbBB) $\to $ (q1,
+BBBB) $\to $ (q7, BBBB) [Halt]
+\end{center}
+
+ID for the String `baab'
+
+\begin{center}
+(q1, baabB) $\to $ (q5, BaabB) $\to $ (q5, BaabB) $\to $ (q5, BaabB) $\to $
+(q5, BaabB) $\to $ (q6, BaabB) $\to $ (q4, BaaBB) $\to $ (q4, BaaBB) $\to $
+(q4, BaaBB) $\to $ (q1, BaaBB) $\to $ (q2, BBaBB) $\to $ (q2, BBaBB) $\to $
+(q3, BBaBB) $\to $ (q3, BBBBB) $\to $ (q7, BBBBB) [Halt].
+\end{center}
+
+Example 8.5 Design a TM to accept the language L $=$ anbncn, where n $\ge $
+1.
+
+Solution: This is a context-sensitive language. The language consists of a,
+b, and c. Here, the number of `a' is equal to the number of `b' which is
+equal to the number of `c'. n number `c' is followed by n number of `b'
+which are followed by n number of `a'. The TM is designed as follows. For
+each `a', search for `b' and `c' and again traverse back to the left to
+search for the leftmost `a'. `a' is replaced by `X', `b' is replaced by `Y',
+and `c' is replaced by `Z'. When all the `a' are traversed and replaced by
+`X', the machine traverses the right side to ? nd if any untraversed `b' or
+`c' is left or not. If not, the machine gets Y and Z and at last a blank.
+Upon getting the blank symbol, the machine halts. The transitional functions
+are
+
+$\delta $ (q1, a) $\to $ (q2, X, R) // `a' is traversed
+
+$\delta $ (q2, a) $\to $ (q2, a, R) // the remaining `a's are traversed
+
+$\delta $ (q2, b) $\to $ (q3, Y, R) // `b' is traversed
+
+$\delta $ (q3, b) $\to $ (q3, b, R) // the remaining `b's are traversed
+
+$\delta $ (q3, c) $\to $ (q4, Z, L) // `c' is traversed
+
+$\delta $ (q4, b) $\to $ (q4, b, L) // the remaining `b's are traversed from
+right to left
+
+$\delta $ (q4, Y) $\to $ (q4, Y, L) // Y, replacement for `b' is traversed
+
+$\delta $ (q4, a) $\to $ (q4, a, L) // the remaining `a's are traversed from
+right to left
+
+$\delta $ (q4, X) $\to $ (q1, X, R) // rightmost X, replacement of `a' is
+traversed
+
+$\delta $ (q2, Y) $\to $ (q2, Y, R) // this is used from the second time
+onwards
+
+$\delta $ (q3, Z) $\to $ (q3, Z, R) // this is used from the second time
+onwards
+
+$\delta $ (q4, Z) $\to $ (q4, Z, L) // this is used from the second time
+onwards
+
+$\delta $ (q1, Y) $\to $ (q5, Y, R) // this is used when all the `a' are
+traversed
+
+$\delta $ (q5, Y) $\to $ (q5, Y, R) // this is used when all the `a' are
+traversed and the machine is traversing right
+
+$\delta $ (q5, Z) $\to $ (q6, Z, R) // this is used when all the `a' and `b'
+are traversed.
+
+$\delta $ (q6, Z) $\to $ (q6, Z, R) // this is used when all the `a' and `b
+are traversed and the machine is traversing right to search for the
+remaining `c'
+
+$\delta $ (q6, B) $\to $ (qf , B, H) // this is used when all the `a', `b',
+and `c' are traversed
+
+Upon executing the last transitional function, the machine halts.
+
+The transitional functions in tabular form are represented as follows.
+
+TRIAL RESTRICTION
+
+Example 8.6 Design a TM to perform the concatenation operation on string of
+`1'. Show an ID for w1 $=$ 111 and w2 $=$ 1111.
+
+Solution: The TM does the concatenation operation on two strings w1 and w2.
+These two strings are placed on the tape of the TM separated by the blank
+symbol B. After traversal, the blank symbol is removed and the two strings
+are concatenated.
+
+The transitional functions are
+
+$\delta $ (q1, 1) $\to $ (q1, 1, R) // traversing `1' of the ? rst string
+
+$\delta $ (q1, B) $\to $ (q2, 1, R) // traversing the separating blank symbol
+and converting it to `1'
+
+$\delta $ (q2, 1) $\to $ (q2, 1, R) // traversing `1' of the second string
+
+$\delta $ (q2, B) $\to $ (q3, B, L) // blank symbol traversal means the end of
+the second string
+
+$\delta $ (q3, 1) $\to $ (q4, B, L) // the last`1' of the second string is
+converted to `B' to keep the number of`1' the same
+
+$\delta $ (q4, 1) $\to $ (q4, 1, L) // traversing the remaining `1' at the
+left side
+
+$\delta $ (q4, B) $\to $ (q5, B, H) // halts
+
+\textit{[This machine is also applicable for performing Z }$= X +$\textit{ Y, where X }$=$\textit{ \textbar w1\textbar and Y }$=$\textit{ \textbar w2\textbar .] }
+
+ID for w1 $=$ 111 and w2 $=$ 1111 and the result is 1111111
+
+(q1, 111B1111B) $\to $ (q1, 111B1111B) $\to $ (q1, 111B1111) $\to $ (q1,
+111B1111B) $\to $ (q2, 1111111B) $\to $
+
+(q2, 11111111B) $\to $ (q2, 11111111B) $\to $ (q2, 11111111B) $\to $ (q2,
+11111111B) $\to $ (q3, 11111111B) $\to $ (q4, 1111111BB) $\to $ (q4,
+1111111BB) $\to $ (q4, 1111111BB) $\to $ (q4, 1111111BB) $\to $ (q4,
+B1111111BB) $\to $ (q4, B1111111BB) $\to $ (q4, B1111111BB) $\to $ (q4,
+B1111111BB) $\to $ (q5, B1111111BB) [Halt]
+
+Example 8.7 Design a TM to perform the following operation
+
+f(x, y) $=$ x $-$y, where x \textgreater y Show an ID for 4 $-$ 2 $=$ 2.
+
+Solution: This performs the subtraction operation. Here, x and y both are
+integer numbers. Let x $=$ \textbar W1\textbar and y $=$ \textbar W2\textbar
+, where W1 and W2 are the strings of `1'. The two strings are placed on the
+input tape separated by B.
+
+Starting traversal from the left hand side `1', the machine moves towards
+the right. It traverses B with a state changed from q0 to q1. In state q1,
+it again traverses right to ? nd B, that is, the end of the second string.
+It changes its state and traverses left and changes the rightmost `1' by B
+(with state change and traversing left). It traverses the separating `B'
+symbol and all `1's of the ? rst string and ? nds the beginning of the ? rst
+string, which starts after B at the left hand side. It changes the ? rst `1'
+by B and again traverses right. This process continues till all the `1's of
+the second string are replaced by `B'. The transitional functions are
+
+$\delta $ (q0, 1) $\to $ (q0, 1, R) // all the `1's of the ? rst string are
+traversed
+
+$\delta $ (q0, B) $\to $ (q1, B, R) // the separating B is traversed
+
+$\delta $ (q1, 1) $\to $ (q1, 1, R) // all the `1's of the second string are
+traversed
+
+$\delta $ (q1, B) $\to $ (q2, B, L) // to signify the end of the second string
+
+\end{document}
